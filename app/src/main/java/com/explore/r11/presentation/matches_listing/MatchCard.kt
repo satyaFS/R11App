@@ -17,7 +17,7 @@ import com.explore.r11.domain.model.Match
 
 @Composable
 fun MatchCard(match: Match, modifier: Modifier = Modifier){
-    Card(modifier = Modifier
+    Card(modifier = modifier
         .padding(bottom = 15.dp)
         .fillMaxWidth()
         .height(80.dp)

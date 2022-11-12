@@ -18,13 +18,23 @@ class MatchesListingViewModel @Inject constructor(
 
     init {
         getListOfMatches()
+//        getPlayers(45756)
     }
 
     fun getListOfMatches(){
         viewModelScope.launch {
+            state = state.copy(isLoading = true)
             repository.getMatches().let {
                 state = state.copy(matches = it)
             }
+            state = state.copy(isLoading = false)
+        }
+    }
+
+    fun getPlayers(matchId:Int){
+        viewModelScope.launch {
+            val players = repository.getPlayers(matchId)
+            println(players);
         }
     }
 

@@ -9,5 +9,6 @@ data class Match(
     val teamOneSC:String,
     val teamTwoSC:String,
     val startTime:LocalDateTime,
-    val matchID:Int
+    val matchID:Int,
+    val players:List<Player> = emptyList()
 )

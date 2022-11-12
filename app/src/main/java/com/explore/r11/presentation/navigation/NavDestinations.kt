@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import com.explore.r11.presentation.matches_listing.MatchesListing
 
 @Composable
-fun Navigation(navController: NavHostController){
+fun NavDestination(navController: NavHostController){
     NavHost(navController = navController, startDestination = Screen.MatchesListing.route){
         composable(route = Screen.MatchesListing.route){
             MatchesListing(navController = navController)
