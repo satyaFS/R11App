@@ -52,22 +52,18 @@ class FirebaseCricketApiImpl @Inject constructor(
         matchesRef.document("matches").collection("Players").document(matchId.toString())
             .get().addOnSuccessListener {players->
                 val playerData = players.data
-                if(playerData != null) {
-                    val playerKeys = playerData.keys
-                    for(p in playerKeys)
-                    {
-                        val hashMap: Map<String, String> =
-                            playerData[p] as HashMap<String, String>
-                        listOfPlayers.add(
-                            PlayerDto(
-                                hashMap["name"] ,
-                                hashMap["team"],
-                                hashMap["type"],
-                                hashMap["salary"],
-                                hashMap["points"],
-                            )
+                playerData?.keys?.forEach{ p->
+                    val hashMap: Map<String, String> =
+                        players[p] as HashMap<String, String>
+                    listOfPlayers.add(
+                        PlayerDto(
+                            hashMap["name"] ,
+                            hashMap["team"],
+                            hashMap["type"],
+                            hashMap["salary"],
+                            hashMap["points"],
                         )
-                    }
+                    )
                 }
             }
             .addOnFailureListener {

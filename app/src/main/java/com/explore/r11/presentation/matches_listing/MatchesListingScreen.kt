@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.explore.r11.presentation.navigation.Screen
 
 @Composable
 fun MatchesListing(
@@ -28,7 +29,7 @@ fun MatchesListing(
                 match,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable {viewModel.getPlayers(match.matchID) }
+                    .clickable {navController.navigate(Screen.Players.route+"/${match.matchID.toString()}") }
             )
         }
 
