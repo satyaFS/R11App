@@ -16,7 +16,6 @@ class CricketRemoteDataSource @Inject constructor(
 ) {
     suspend fun getMatches():List<Match>{
         val matches = cricketApi.getMatches()
-        println(matches)
         return  matches.map { it.toMatch() }
     }
     //code not working with dispatcher, as api call is already thread safe

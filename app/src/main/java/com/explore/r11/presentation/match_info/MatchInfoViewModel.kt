@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.explore.r11.domain.model.Match
+import com.explore.r11.domain.model.Player
 import com.explore.r11.domain.repository.CricketRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -36,6 +37,20 @@ class MatchInfoViewModel @Inject constructor (
             state = state.copy(selectedPlayers = players)
             state = state.copy(isLoading = false)
         }
+    }
+
+    fun removePlayer(player:Player){
+        val selectedPlayers =   state.selectedPlayers.toMutableList()
+        selectedPlayers.remove(player)
+        state = state.copy(selectedPlayers = selectedPlayers.toList())
+    }
+
+    fun addPlayer(player: Player){
+        val removedPlayers = state.removedPlayers.toMutableList()
+        removedPlayers.remove(player)
+        val selectedPalyers = state.selectedPlayers.toMutableList()
+        selectedPalyers.add(player)
+        state = state.copy(removedPlayers = removedPlayers, selectedPlayers = selectedPalyers)
     }
 
 }
