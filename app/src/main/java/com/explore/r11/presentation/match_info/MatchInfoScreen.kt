@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.explore.r11.domain.model.Player
+import com.explore.r11.presentation.matches_listing.MatchCard
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 @Composable
@@ -31,7 +32,8 @@ fun MatchInfoScreen(
     val state = viewModel.state
     var selectedIndex by remember { mutableStateOf(0) }
     Column(Modifier.fillMaxSize()) {
-//        MatchCard(match = match) todo
+        Divider(thickness = 1.dp, color = Color.LightGray)
+      MatchCard( state.league, state.teamOne,state.teamTwo )
         Divider(thickness = 1.dp, color = Color.LightGray)
         TabRow(selectedTabIndex = selectedIndex, backgroundColor = MaterialTheme.colors.surface) {
             Tab(
@@ -80,7 +82,7 @@ fun MatchInfoScreen(
                             .fillMaxWidth()
                             .weight(1f)) {
                         items(state.selectedPlayers) {
-                            PlayerItem(player = it, viewModel.state.matchId)
+                            PlayerItem(player = it, viewModel::removePlayer, viewModel::lockCVC,viewModel::lockPlayer,viewModel.state.matchId)
                         }
                     }
                     Row(Modifier.fillMaxWidth().wrapContentHeight()  ) {
@@ -107,32 +109,15 @@ fun MatchInfoScreen(
                             .align(Alignment.CenterVertically),
                         textAlign = TextAlign.Start
                     )
-                    Text(
-                        text = "  C/Vc",
-                        style = MaterialTheme.typography.caption,
-                        modifier = Modifier
-                            .weight(0.15f)
-                            .padding(bottom = 8.dp, top = 4.dp) //.background(Color.Yellow)
-                            .align(Alignment.CenterVertically),
-                        textAlign = TextAlign.Start
-                    )
-                    Text(
-                        text = "Lock Player",
-                        style = MaterialTheme.typography.caption,
-                        modifier = Modifier
-                            .weight(0.3f)
-                            .padding(bottom = 8.dp, top = 4.dp) //.background(Color.Magenta)
-                            .align(Alignment.CenterVertically),
-                        textAlign = TextAlign.Start
-                    )
+
                 }
                 Divider(color = Color.LightGray, thickness = 1.dp)
                 LazyColumn(
                     Modifier
                         .fillMaxWidth()
                         .weight(1f)) {
-                    items(state.selectedPlayers) {
-                        PlayerItem(player = it, viewModel.state.matchId)
+                    items(state.removedPlayers) {
+                        RemovedPlayerItem(player = it, viewModel::addPlayer,viewModel.state.matchId)
                     }
                 }
                 Row(Modifier.fillMaxWidth().wrapContentHeight()  ) {

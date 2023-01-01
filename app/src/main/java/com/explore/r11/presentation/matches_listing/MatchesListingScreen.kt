@@ -29,7 +29,7 @@ fun MatchesListing(
                 match,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable {navController.navigate(Screen.Players.route+"/${match.matchID.toString()}") }
+                    .clickable {navController.navigate(Screen.Players.route+"/${match.matchID.toString()}/${match.league}") }
             )
         }
 

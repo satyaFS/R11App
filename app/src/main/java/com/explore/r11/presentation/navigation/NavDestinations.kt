@@ -13,7 +13,7 @@ fun NavDestination(navController: NavHostController){
         composable(route = Screen.MatchesListing.route){
             MatchesListing(navController = navController)
         }
-        composable(Screen.Players.route +"/{matchId}"){
+        composable(Screen.Players.route +"/{matchId}/{leagueName}"){
             MatchInfoScreen(navController = navController)
         }
     }

@@ -7,8 +7,8 @@ data class Player(
     val salary:String,
     val points:Int = 0,
     val lastMatch:Boolean = false,
-    val isPlayerLocked:Boolean = false,
-    val isCvcLocked:Boolean = false,
-    val isCaptain:Boolean = false,
-    val isViceCaptain:Boolean = false
+    var isPlayerLocked:Boolean = false,
+    var isCvcLocked:Boolean = false,
+    var isCaptain:Boolean = false,
+    var isViceCaptain:Boolean = false
 )

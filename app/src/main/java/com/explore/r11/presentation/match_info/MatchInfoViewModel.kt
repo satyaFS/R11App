@@ -6,9 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.explore.r11.domain.model.Match
 import com.explore.r11.domain.model.Player
 import com.explore.r11.domain.repository.CricketRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,16 +22,22 @@ class MatchInfoViewModel @Inject constructor (
 
     init {
         val matchId = savedStateHandle.get<String>("matchId")
-        if(matchId?.isDigitsOnly() == true){
-            initializeState(matchId)
+        println(matchId)
+        val league = savedStateHandle.get<String>("leagueName")
+
+        if(matchId?.isDigitsOnly() == true && league != null){
+            initializeState(matchId, league)
         }
     }
 
-    fun initializeState(matchId:String){
+    fun initializeState(matchId:String, league:String){
         viewModelScope.launch {
             state = state.copy(matchId = matchId)
             state = state.copy(isLoading = true)
             val players = repository.getPlayers(matchId.toInt());
+            val teamOne = players[0].team
+            val teamTwo = players.first { it.team != teamOne }.team
+            state = state.copy(league = league, teamOne = teamOne, teamTwo = teamTwo)
             state = state.copy(selectedPlayers = players)
             state = state.copy(isLoading = false)
         }
@@ -42,15 +46,27 @@ class MatchInfoViewModel @Inject constructor (
     fun removePlayer(player:Player){
         val selectedPlayers =   state.selectedPlayers.toMutableList()
         selectedPlayers.remove(player)
-        state = state.copy(selectedPlayers = selectedPlayers.toList())
+        val removedPlayers = state.removedPlayers.toMutableList()
+        removedPlayers.add(player)
+        state = state.copy(selectedPlayers = selectedPlayers.toList(), removedPlayers = removedPlayers)
     }
 
     fun addPlayer(player: Player){
         val removedPlayers = state.removedPlayers.toMutableList()
         removedPlayers.remove(player)
-        val selectedPalyers = state.selectedPlayers.toMutableList()
-        selectedPalyers.add(player)
-        state = state.copy(removedPlayers = removedPlayers, selectedPlayers = selectedPalyers)
+        val selectedPlayers = state.selectedPlayers.toMutableList()
+        selectedPlayers.add(player)
+        state = state.copy(removedPlayers = removedPlayers, selectedPlayers = selectedPlayers)
     }
+
+    fun lockCVC(player: Player){
+        player.isCvcLocked = !player.isCvcLocked
+    }
+    fun lockPlayer(player:Player){
+        player.isPlayerLocked = !player.isPlayerLocked
+    }
+
+
+
 
 }
