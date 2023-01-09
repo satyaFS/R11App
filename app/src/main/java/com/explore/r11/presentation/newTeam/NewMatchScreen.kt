@@ -15,9 +15,9 @@ import androidx.navigation.NavController
 fun NewMatchScreen(viewModel: NewTeamViewModel = hiltViewModel(),navController: NavController ){
     val state = viewModel.state
     Column(Modifier.fillMaxSize().padding(top = 5.dp)) {
-        ExpandableList(players = state.teamTwoPlayers, teamName = state.teamTwoName )
+        ExpandableList(players = state.teamTwoPlayers, teamName = state.teamTwoName, Modifier.wrapContentHeight(), 0.45f )
         Divider(Modifier.size(2.dp))
-        ExpandableList(players = state.teamOnePlayers, teamName = state.teamOneName )
+        ExpandableList(players = state.teamOnePlayers, teamName = state.teamOneName, Modifier.wrapContentHeight(),1f )
     }
 
 }

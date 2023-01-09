@@ -1,24 +1,29 @@
 package com.explore.r11.presentation.newTeam
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.DarkGray
+import androidx.compose.ui.graphics.Color.Companion.Gray
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun TeamTitleHeader(teamName:String, expand:()->Unit){
     Card(modifier = Modifier
         .fillMaxWidth()
-        .height(60.dp)
+        .height(80.dp)
         .clickable { expand() }
         , elevation = 5.dp
 
@@ -53,14 +58,29 @@ fun TeamTitleHeader(teamName:String, expand:()->Unit){
                 .fillMaxWidth()
                 .fillMaxHeight(1f)
                 , Arrangement.SpaceBetween, Alignment.CenterVertically) {
-                TextField(
+                var edit by remember{ mutableStateOf(false) }
+                OutlinedTextField(
                     value =  teamName,
                     onValueChange = {},
+                    enabled = edit,
                     textStyle = MaterialTheme.typography.body1,
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .weight(1f)
                         .align(Alignment.CenterVertically),
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor = Gray,
+                            unfocusedBorderColor = White,
+                            textColor = DarkGray,
+                            disabledTextColor = Black)
                 )
+                IconToggleButton(checked = edit, onCheckedChange = {edit = !edit}) {
+//                    val tint by animateColorAsState(if (edit) Color(0xFFEC407A) else Color(0xFFB0BEC5))
+                    if(!edit)
+                        Icon(Icons.Default.Edit, contentDescription = "Localized description", tint = Black)
+                    else
+                        Icon(Icons.Default.ThumbUp, "", tint = Color.Green)
+                }
+
             }
 
         }
