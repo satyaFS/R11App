@@ -2,10 +2,13 @@ package com.explore.r11.data.remote.cricket
 
 import com.explore.r11.data.mapper.toMatch
 import com.explore.r11.data.mapper.toPlayer
+import com.explore.r11.data.remote.cricket.dto.PlayerDto
 import com.explore.r11.di.IoDispatcher
 import com.explore.r11.domain.model.Match
 import com.explore.r11.domain.model.Player
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,12 +18,18 @@ class CricketRemoteDataSource @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
     suspend fun getMatches():List<Match>{
-        val matches = cricketApi.getMatches()
+        val matches = withContext(ioDispatcher){
+                        cricketApi.getMatches()
+                    }
         return  matches.map { it.toMatch() }
     }
     //code not working with dispatcher, as api call is already thread safe
     suspend fun getPlayers(matchId:Int):List<Player>{
-        val players = cricketApi.getPlayers(matchId)
+        var players :List<PlayerDto>;
+        withContext(ioDispatcher){
+              players = cricketApi.getPlayers(matchId)
+        }
+        println("crd ${players.size}")
         return players.map { it.toPlayer() };
     }
 }

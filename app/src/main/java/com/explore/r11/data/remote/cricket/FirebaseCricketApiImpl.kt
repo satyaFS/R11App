@@ -46,30 +46,35 @@ class FirebaseCricketApiImpl @Inject constructor(
     }
 
     override suspend fun getPlayers(matchId: Int): List<PlayerDto> {
+        println("Inside get players in firebase")
         val matchesRef = firebaseObj.collection("Matches")
         val listOfPlayers = mutableListOf<PlayerDto>()
         println(matchId)
-        matchesRef.document("matches").collection("Players").document(matchId.toString())
+        val res = matchesRef.document("matches").collection("Players").document(matchId.toString())
             .get().addOnSuccessListener {players->
-                val playerData = players.data
-                playerData?.keys?.forEach{ p->
-                    val hashMap: Map<String, String> =
-                        players[p] as HashMap<String, String>
-                    listOfPlayers.add(
-                        PlayerDto(
-                            hashMap["name"] ,
-                            hashMap["team"],
-                            hashMap["type"],
-                            hashMap["salary"],
-                            hashMap["points"],
-                        )
-                    )
-                }
             }
             .addOnFailureListener {
                 Log.d(TAG, "Error getting documents: ", it)
+                println("Error in firebase")
             }
             .await()
+        //await only waits till snapshot is fetched but not till the code inside "addOnSuccessListener" is completed
+        res?.let { players->
+            val playerData = players.data
+            playerData?.keys?.forEach{ p->
+                val hashMap: Map<String, String> =
+                    players[p] as HashMap<String, String>
+                listOfPlayers.add(
+                    PlayerDto(
+                        hashMap["name"] ,
+                        hashMap["team"],
+                        hashMap["type"],
+                        hashMap["salary"],
+                        hashMap["points"],
+                    )
+                )
+            }
+        }
         return  listOfPlayers
     }
 }
