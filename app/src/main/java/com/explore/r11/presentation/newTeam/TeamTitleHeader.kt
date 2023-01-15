@@ -5,12 +5,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.DarkGray
@@ -28,6 +31,9 @@ fun TeamTitleHeader(teamName:String, expand:()->Unit){
         , elevation = 5.dp
 
     ) {
+        val focusRequester = remember {
+            FocusRequester()
+        }
         Column(
             Modifier
                 .fillMaxWidth()
@@ -60,25 +66,31 @@ fun TeamTitleHeader(teamName:String, expand:()->Unit){
                 , Arrangement.SpaceBetween, Alignment.CenterVertically) {
                 var edit by remember{ mutableStateOf(false) }
                 OutlinedTextField(
-                    value =  teamName,
+                    value =  edit.toString(),
                     onValueChange = {},
                     enabled = edit,
-                    textStyle = MaterialTheme.typography.body1,
+                   textStyle = MaterialTheme.typography.body1,
                     modifier = Modifier
                         .weight(1f)
-                        .align(Alignment.CenterVertically),
+                        .align(Alignment.CenterVertically)
+                        .focusRequester(focusRequester),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
                             focusedBorderColor = Gray,
                             unfocusedBorderColor = White,
                             textColor = DarkGray,
                             disabledTextColor = Black)
                 )
-                IconToggleButton(checked = edit, onCheckedChange = {edit = !edit}) {
+                IconToggleButton(checked = edit, onCheckedChange = {
+                    edit = !edit
+                }) {
 //                    val tint by animateColorAsState(if (edit) Color(0xFFEC407A) else Color(0xFFB0BEC5))
                     if(!edit)
                         Icon(Icons.Default.Edit, contentDescription = "Localized description", tint = Black)
                     else
-                        Icon(Icons.Default.ThumbUp, "", tint = Color.Green)
+                        Icon(Icons.Default.Check, "", tint = Color.Green)
+                }
+                SideEffect {
+                    focusRequester.requestFocus()
                 }
 
             }
