@@ -35,10 +35,12 @@ class MatchInfoViewModel @Inject constructor (
             state = state.copy(matchId = matchId)
             state = state.copy(isLoading = true)
             val players = repository.getPlayers(matchId.toInt());
-            val teamOne = players[0].team
-            val teamTwo = players.first { it.team != teamOne }.team
-            state = state.copy(league = league, teamOne = teamOne, teamTwo = teamTwo)
-            state = state.copy(selectedPlayers = players)
+            if(players.isNotEmpty()){
+                val teamOne = players[0].team
+                val teamTwo = players.first { it.team != teamOne }.team
+                state = state.copy(league = league, teamOne = teamOne, teamTwo = teamTwo)
+                state = state.copy(selectedPlayers = players)
+            }
             state = state.copy(isLoading = false)
         }
     }
