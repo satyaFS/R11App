@@ -7,7 +7,6 @@ import com.explore.r11.di.IoDispatcher
 import com.explore.r11.domain.model.Match
 import com.explore.r11.domain.model.Player
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,7 +22,6 @@ class CricketRemoteDataSource @Inject constructor(
                     }
         return  matches.map { it.toMatch() }
     }
-    //code not working with dispatcher, as api call is already thread safe
     suspend fun getPlayers(matchId:Int):List<Player>{
         var players :List<PlayerDto>;
         withContext(ioDispatcher){

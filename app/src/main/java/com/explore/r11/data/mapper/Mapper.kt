@@ -20,7 +20,7 @@ fun MatchDto.toMatch():Match{
         teamOneSC = teamOneSC?:"",
         teamTwoSC = teamTwoSC?:"",
         startTime = localDateTime,
-        matchID = if(matchID?.isDigitsOnly() == true) matchID?.toInt() else 0
+        matchID = if(matchID?.isDigitsOnly() == true) matchID.toInt() else 0
     )
 }
 

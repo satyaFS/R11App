@@ -1,5 +1,6 @@
 package com.explore.r11.data.repository
 
+import com.explore.r11.data.local.CricketLocalDataSource
 import com.explore.r11.data.remote.cricket.CricketRemoteDataSource
 import com.explore.r11.domain.model.Match
 import com.explore.r11.domain.model.Player
@@ -11,6 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class CricketRepositoryImpl @Inject constructor(
     private val cricketRemoteDataSource: CricketRemoteDataSource,
+    private val cricketLocalDataSource: CricketLocalDataSource
 ):CricketRepository
 {
     override suspend fun getMatches():List<Match>{
