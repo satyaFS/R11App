@@ -22,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.explore.r11.domain.model.Player
 import com.explore.r11.presentation.matches_listing.MatchCard
+import com.explore.r11.presentation.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 @Composable
@@ -30,53 +31,57 @@ fun MatchInfoScreen(
     navController:NavController
 ){
     val state = viewModel.state
-    var selectedIndex by remember { mutableStateOf(0) }
-    Column(Modifier.fillMaxSize()) {
-        Divider(thickness = 1.dp, color = Color.LightGray)
-      MatchCard( state.league, state.teamOne,state.teamTwo )
-        Divider(thickness = 1.dp, color = Color.LightGray)
-        TabRow(selectedTabIndex = selectedIndex, backgroundColor = MaterialTheme.colors.surface) {
-            Tab(
-                selected = true,
-                onClick = { selectedIndex = 0 },
-                text = { Text(text = "All Players") }
-            )
-            Tab(selected = true, onClick = { selectedIndex = 1 }, text = {Text(text = "Removed Players")})
+    if(state.isLoading)
+        Box(Modifier.fillMaxSize(), Alignment.Center){
+            CircularProgressIndicator()
         }
-        if(selectedIndex==0){
-            Column {
-                Row(Modifier.background(Color.LightGray)) {
-                    Spacer(modifier = Modifier.weight(0.2f))
-                    Text(
-                        text = "Player",
-                        style = MaterialTheme.typography.caption,
-                        modifier = Modifier
-                            .weight(0.35f)
-                            .padding(start = 14.dp, bottom = 8.dp, top = 4.dp)//.background(Color.Red)
-                            .align(Alignment.CenterVertically),
-                        textAlign = TextAlign.Start
-                    )
-                    Text(
-                        text = "  C/Vc",
-                        style = MaterialTheme.typography.caption,
-                        modifier = Modifier
-                            .weight(0.15f)
-                            .padding(bottom = 8.dp, top = 4.dp) //.background(Color.Yellow)
-                            .align(Alignment.CenterVertically),
-                        textAlign = TextAlign.Start
-                    )
-                    Text(
-                        text = "Lock Player",
-                        style = MaterialTheme.typography.caption,
-                        modifier = Modifier
-                            .weight(0.3f)
-                            .padding(bottom = 8.dp, top = 4.dp) //.background(Color.Magenta)
-                            .align(Alignment.CenterVertically),
-                        textAlign = TextAlign.Start
-                    )
-                }
-                Divider(color = Color.LightGray, thickness = 1.dp)
-                if(!state.isLoading ){
+    else {
+        var selectedIndex by remember { mutableStateOf(0) }
+        Column(Modifier.fillMaxSize()) {
+            Divider(thickness = 1.dp, color = Color.LightGray)
+            MatchCard( state.league, state.teamOne,state.teamTwo )
+            Divider(thickness = 1.dp, color = Color.LightGray)
+            TabRow(selectedTabIndex = selectedIndex, backgroundColor = MaterialTheme.colors.surface) {
+                Tab(
+                    selected = true,
+                    onClick = { selectedIndex = 0 },
+                    text = { Text(text = "All Players") }
+                )
+                Tab(selected = true, onClick = { selectedIndex = 1 }, text = {Text(text = "Removed Players")})
+            }
+            if(selectedIndex==0){
+                Column {
+                    Row(Modifier.background(Color.LightGray)) {
+                        Spacer(modifier = Modifier.weight(0.2f))
+                        Text(
+                            text = "Player",
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier
+                                .weight(0.35f)
+                                .padding(start = 14.dp, bottom = 8.dp, top = 4.dp)//.background(Color.Red)
+                                .align(Alignment.CenterVertically),
+                            textAlign = TextAlign.Start
+                        )
+                        Text(
+                            text = "  C/Vc",
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier
+                                .weight(0.15f)
+                                .padding(bottom = 8.dp, top = 4.dp) //.background(Color.Yellow)
+                                .align(Alignment.CenterVertically),
+                            textAlign = TextAlign.Start
+                        )
+                        Text(
+                            text = "Lock Player",
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier
+                                .weight(0.3f)
+                                .padding(bottom = 8.dp, top = 4.dp) //.background(Color.Magenta)
+                                .align(Alignment.CenterVertically),
+                            textAlign = TextAlign.Start
+                        )
+                    }
+                    Divider(color = Color.LightGray, thickness = 1.dp)
                     LazyColumn(
                         Modifier
                             .fillMaxWidth()
@@ -88,45 +93,40 @@ fun MatchInfoScreen(
                     Row(Modifier.fillMaxWidth().wrapContentHeight()  ) {
                         SelectNoOfTeams(navController = navController )
                     }
-                }
-                else {
-                    Box(Modifier.fillMaxSize(), Alignment.Center){
-                        CircularProgressIndicator()
-                    }
-                }
-            }
-        }
-        else {
-            Column {
-                Row(Modifier.background(Color.LightGray)) {
-                    Spacer(modifier = Modifier.weight(0.2f))
-                    Text(
-                        text = "Player",
-                        style = MaterialTheme.typography.caption,
-                        modifier = Modifier
-                            .weight(0.35f)
-                            .padding(start = 14.dp, bottom = 8.dp, top = 4.dp)//.background(Color.Red)
-                            .align(Alignment.CenterVertically),
-                        textAlign = TextAlign.Start
-                    )
 
                 }
-                Divider(color = Color.LightGray, thickness = 1.dp)
-                LazyColumn(
-                    Modifier
-                        .fillMaxWidth()
-                        .weight(1f)) {
-                    items(state.removedPlayers) {
-                        RemovedPlayerItem(player = it, viewModel::addPlayer,viewModel.state.matchId)
+            }
+            else {
+                Column {
+                    Row(Modifier.background(Color.LightGray)) {
+                        Spacer(modifier = Modifier.weight(0.2f))
+                        Text(
+                            text = "Player",
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier
+                                .weight(0.35f)
+                                .padding(start = 14.dp, bottom = 8.dp, top = 4.dp)//.background(Color.Red)
+                                .align(Alignment.CenterVertically),
+                            textAlign = TextAlign.Start
+                        )
+
                     }
-                }
-                Row(Modifier.fillMaxWidth().wrapContentHeight()  ) {
-                    SelectNoOfTeams(navController = navController )
+                    Divider(color = Color.LightGray, thickness = 1.dp)
+                    LazyColumn(
+                        Modifier
+                            .fillMaxWidth()
+                            .weight(1f)) {
+                        items(state.removedPlayers) {
+                            RemovedPlayerItem(player = it, viewModel::addPlayer,viewModel.state.matchId)
+                        }
+                    }
+                    Row(Modifier.fillMaxWidth().wrapContentHeight()  ) {
+                        SelectNoOfTeams(navController = navController )
+                    }
                 }
             }
         }
     }
-
 }
 
 
@@ -157,7 +157,7 @@ fun SelectNoOfTeams(
 //                    openDialog.value = validateSelectedPlayers() todo
                     if( openDialog.value== 1){
 //                        generateTeams(players.toList(), numberValue)
-//                        navController.navigate(Screen.GeneratedTeams.route)
+                        navController.navigate(Screen.GeneratedTeams.route)
                     }
                 },
                 modifier = Modifier
@@ -267,5 +267,4 @@ fun SelectNoOfTeams(
             )
         }
     }
-
 }
