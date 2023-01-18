@@ -29,12 +29,31 @@ fun NewMatchScreen(viewModel: NewTeamViewModel = hiltViewModel(),navController: 
                 focusManager.clearFocus()
             }
     ) {
-        ExpandableList(players = state.teamOnePlayers, teamName = state.teamOneName, Modifier.wrapContentHeight(),0.45f,  addPlayer = {viewModel.addPlayer(1 , state.teamTwoName)} )
+        ExpandableList(
+            players = state.teamOnePlayers,
+            teamNo = 1,
+            teamName = state.teamOneName,
+            modifier = Modifier.wrapContentHeight(),
+            listHeight = 0.45f,
+            addPlayer = { viewModel.addPlayer(1) },
+            updateTeamName = viewModel::updateTeamName,
+            updatePlayerName = viewModel::updatePlayerName,
+            updatePlayerSalary = viewModel::updatePlayerSalary,
+            updatePlayerType = viewModel::updatePlayerType
+        )
         Divider(Modifier.size(2.dp))
-        ExpandableList(players = state.teamTwoPlayers, teamName = state.teamTwoName, Modifier.wrapContentHeight(), 1f) {
-            viewModel.addPlayer(2,
-                state.teamOneName)
-        }
+        ExpandableList(
+            players = state.teamTwoPlayers,
+            teamNo = 2,
+            teamName = state.teamTwoName,
+            modifier = Modifier.wrapContentHeight(),
+            listHeight = 1f,
+            addPlayer = { viewModel.addPlayer(2) },
+            updateTeamName = viewModel::updateTeamName,
+            updatePlayerName = viewModel::updatePlayerName,
+            updatePlayerSalary = viewModel::updatePlayerSalary,
+            updatePlayerType = viewModel::updatePlayerType
+        )
     }
 
 }

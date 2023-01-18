@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TeamTitleHeader(teamName:String, expand:()->Unit){
+fun TeamTitleHeader(teamName:String, teamNo:Int,updateTeamName:(Int,String)->Unit,expand:()->Unit){
     Card(modifier = Modifier
         .fillMaxWidth()
         .height(80.dp)
@@ -66,19 +66,19 @@ fun TeamTitleHeader(teamName:String, expand:()->Unit){
                 , Arrangement.SpaceBetween, Alignment.CenterVertically) {
                 var edit by remember{ mutableStateOf(false) }
                 OutlinedTextField(
-                    value =  edit.toString(),
-                    onValueChange = {},
+                    value =  teamName,
+                    onValueChange = {updateTeamName(teamNo,it)},
                     enabled = edit,
-                   textStyle = MaterialTheme.typography.body1,
+                    textStyle = MaterialTheme.typography.body1,
                     modifier = Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically)
                         .focusRequester(focusRequester),
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = Gray,
-                            unfocusedBorderColor = White,
-                            textColor = DarkGray,
-                            disabledTextColor = Black)
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Gray,
+                        unfocusedBorderColor = White,
+                        textColor = DarkGray,
+                        disabledTextColor = Black)
                 )
                 IconToggleButton(checked = edit, onCheckedChange = {
                     edit = !edit

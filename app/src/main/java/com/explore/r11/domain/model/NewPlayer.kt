@@ -4,5 +4,5 @@ data class NewPlayer (
     var name:String,
     var team:String,
     var type:String,
-    var salary:Int
+    var salary:Double
 )

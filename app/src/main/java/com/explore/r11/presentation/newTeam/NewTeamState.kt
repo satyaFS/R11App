@@ -10,7 +10,7 @@ data class NewTeamState(
     val teamTwoCount:Int = 0,
     val playerName:String = "",
     val playerSalary:String = "",
-    val teamOneName:String = "teamOne",
-    val teamTwoName:String = "teamTwo",
+    val teamOneName:String = "Team One",
+    val teamTwoName:String = "Team Two",
     val isLoading:Boolean = false
 )

@@ -9,7 +9,7 @@ interface CricketDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMatch(
         matchEntities:List<MatchEntity>
-    ):Long
+    ):List<Long>
 
     @Query("SELECT * FROM MatchEntity")
     suspend fun getMatches():List<MatchEntity>
@@ -17,8 +17,8 @@ interface CricketDao {
     //team
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTeam(
-        teamEntity: TeamEntity
-    ):Long
+        teamEntity: List<TeamEntity>
+    ):List<Long>
 
     @MapInfo(keyColumn = "teamId", valueColumn = "teamName")
     @Query("SELECT TeamEntity.teamId, teamName FROM TeamEntity WHERE teamId in (:Ids)")
