@@ -117,7 +117,7 @@ fun NewPlayerItem(
             )
 
             IconButton(onClick = {
-                                 updatePlayerSalary(player,if ((player.salary + 0.5) <= 10.0 ) player.salary+0.5 else 10.0)
+                                 updatePlayerSalary(player,if ((player.salary + 0.5) <= 12.0 ) player.salary+0.5 else 12.0)
                                  playerSalary = player.salary
                                  },
                 modifier = Modifier.weight(0.25f)) {
@@ -128,5 +128,7 @@ fun NewPlayerItem(
                 )
             }
         }
+
+
     }
 }

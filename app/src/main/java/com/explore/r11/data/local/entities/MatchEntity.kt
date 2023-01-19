@@ -5,9 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class MatchEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val matchId:Int,
     val teamOneId:Int,
     val teamTwoId:Int,
-    val leagueName:Int
+    val leagueName:String
 )

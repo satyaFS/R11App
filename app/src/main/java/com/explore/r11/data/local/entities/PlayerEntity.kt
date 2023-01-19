@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class PlayerEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val playerId:Int,
     val playerName:String,
     val playerSalary:Double,

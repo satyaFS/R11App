@@ -8,21 +8,26 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.explore.r11.domain.model.NewPlayer
-import com.explore.r11.domain.model.Player
 
 @Composable
-fun ExpandableList(players:List<NewPlayer>, teamName:String, modifier: Modifier, listHeight:Float, addPlayer:()->Unit){
+fun ExpandableList(
+    players: List<NewPlayer>,
+    teamName: String,
+    teamNo: Int,
+    modifier: Modifier,
+    listHeight: Float,
+    addPlayer: () -> Unit,
+    updateTeamName:(Int,String)->Unit,
+    updatePlayerName: (NewPlayer, String) -> Unit,
+    updatePlayerSalary:(NewPlayer,Double)->Unit,
+    updatePlayerType:(NewPlayer,String)->Unit
+){
     Column(modifier = modifier) {
         var editable by remember { mutableStateOf(false) }
-        TeamTitleHeader(teamName = teamName) { editable = !editable }
+        TeamTitleHeader(teamName = teamName, teamNo =teamNo ,updateTeamName=updateTeamName) { editable = !editable }
         AnimatedVisibility(visible = editable) {
          Column(Modifier.wrapContentSize()) {
              Button(
@@ -37,8 +42,8 @@ fun ExpandableList(players:List<NewPlayer>, teamName:String, modifier: Modifier,
              }
              LazyColumn(Modifier.fillMaxHeight(listHeight) ){
 
-                 items( players){ it
-                     NewPlayerItem(name = it.name, salary = it.salary.toString())
+                 items( players){player->
+                     NewPlayerItem(player,updatePlayerName, updatePlayerSalary,updatePlayerType)
                  }
              }
          }

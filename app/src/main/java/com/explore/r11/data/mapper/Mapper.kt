@@ -1,9 +1,12 @@
 package com.explore.r11.data.mapper
 
 import androidx.core.text.isDigitsOnly
+import com.explore.r11.data.local.entities.MatchTeamPlayers
+import com.explore.r11.data.local.entities.PlayerEntity
 import com.explore.r11.data.remote.cricket.dto.MatchDto
 import com.explore.r11.data.remote.cricket.dto.PlayerDto
 import com.explore.r11.domain.model.Match
+import com.explore.r11.domain.model.NewPlayer
 import com.explore.r11.domain.model.Player
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -31,5 +34,22 @@ fun PlayerDto.toPlayer():Player{
         type = type?:"",
         salary = salary?:"",
         points = if(points?.isDigitsOnly() == true) points.toInt() else 0
+    )
+}
+
+fun NewPlayer.toPlayerEntity():PlayerEntity{
+    return PlayerEntity(
+        playerName = name,
+        playerType = type,
+        playerSalary = salary,
+        playerId = 0
+    )
+}
+
+fun toMatchTeamPlayers(matchId:Long,teamId:Long, playerId:Long):MatchTeamPlayers{
+    return MatchTeamPlayers(
+        matchId = matchId.toInt(),
+        teamId = teamId.toInt(),
+        playerId = playerId.toInt()
     )
 }
