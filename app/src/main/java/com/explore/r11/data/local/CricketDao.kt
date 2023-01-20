@@ -1,10 +1,7 @@
 package com.explore.r11.data.local
 
 import androidx.room.*
-import com.explore.r11.data.local.entities.MatchEntity
-import com.explore.r11.data.local.entities.MatchTeamPlayers
-import com.explore.r11.data.local.entities.PlayerEntity
-import com.explore.r11.data.local.entities.TeamEntity
+import com.explore.r11.data.local.entities.*
 
 @Dao
 interface CricketDao {
@@ -29,8 +26,37 @@ interface CricketDao {
     //players
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPlayers(players:List<PlayerEntity>):List<Long>
+    @MapInfo(keyColumn = "teamName")
+    @Query("""SELECT TeamEntity.teamName,PlayerEntity.* FROM TeamEntity 
+        INNER JOIN MatchTeamPlayersEntity on TeamEntity.teamID = MatchTeamPlayersEntity.teamID
+        AND MatchTeamPlayersEntity.matchID = :matchId
+        INNER JOIN PlayerEntity ON PlayerEntity.playerId = MatchTeamPlayersEntity.playerId
+    """)
+    suspend fun getPlayers(matchId:Int):Map<String,List<PlayerEntity>>
 
     //MatchTeamPlayers
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMatchTeamPlayers(matchTeamPlayers: List<MatchTeamPlayers>):List<Long>
+    suspend fun insertMatchTeamPlayers(matchTeamPlayers: List<MatchTeamPlayersEntity>):List<Long>
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

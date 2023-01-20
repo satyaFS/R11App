@@ -1,10 +1,8 @@
 package com.explore.r11.data.local
 
-import com.explore.r11.data.local.entities.MatchEntity
-import com.explore.r11.data.local.entities.MatchTeamPlayers
-import com.explore.r11.data.local.entities.PlayerEntity
-import com.explore.r11.data.local.entities.TeamEntity
+import com.explore.r11.data.local.entities.*
 import com.explore.r11.di.IoDispatcher
+import com.explore.r11.domain.model.Player
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -44,9 +42,15 @@ class CricketLocalDataSource @Inject constructor(
             cricketDao.insertMatch(match)
         }
     }
-    suspend fun insertMatchTeamPlayers(matchTeamPlayers: List<MatchTeamPlayers>):List<Long>{
+    suspend fun insertMatchTeamPlayers(matchTeamPlayers: List<MatchTeamPlayersEntity>):List<Long>{
         return withContext(ioDispatcher){
             cricketDao.insertMatchTeamPlayers(matchTeamPlayers)
+        }
+    }
+
+    suspend fun getPlayers(matchId:Int): Map<String, List<PlayerEntity>> {
+        return withContext(ioDispatcher){
+            cricketDao.getPlayers(matchId)
         }
     }
 }

@@ -31,7 +31,7 @@ fun MatchesListing(
             .fillMaxWidth()
             .fillMaxHeight(), contentPadding = PaddingValues(6.dp)
         ) {
-            items(state.matches.take(3)) { match ->
+            items(state.matches) { match ->
                 MatchCard(
                     match,
                     modifier = Modifier

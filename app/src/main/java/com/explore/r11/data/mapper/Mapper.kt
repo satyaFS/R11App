@@ -1,7 +1,7 @@
 package com.explore.r11.data.mapper
 
 import androidx.core.text.isDigitsOnly
-import com.explore.r11.data.local.entities.MatchTeamPlayers
+import com.explore.r11.data.local.entities.MatchTeamPlayersEntity
 import com.explore.r11.data.local.entities.PlayerEntity
 import com.explore.r11.data.remote.cricket.dto.MatchDto
 import com.explore.r11.data.remote.cricket.dto.PlayerDto
@@ -26,7 +26,6 @@ fun MatchDto.toMatch():Match{
         matchID = if(matchID?.isDigitsOnly() == true) matchID.toInt() else 0
     )
 }
-
 fun PlayerDto.toPlayer():Player{
     return Player(
         name = name?:"",
@@ -36,7 +35,6 @@ fun PlayerDto.toPlayer():Player{
         points = if(points?.isDigitsOnly() == true) points.toInt() else 0
     )
 }
-
 fun NewPlayer.toPlayerEntity():PlayerEntity{
     return PlayerEntity(
         playerName = name,
@@ -46,10 +44,19 @@ fun NewPlayer.toPlayerEntity():PlayerEntity{
     )
 }
 
-fun toMatchTeamPlayers(matchId:Long,teamId:Long, playerId:Long):MatchTeamPlayers{
-    return MatchTeamPlayers(
+fun toMatchTeamPlayers(matchId:Long,teamId:Long, playerId:Long):MatchTeamPlayersEntity{
+    return MatchTeamPlayersEntity(
         matchId = matchId.toInt(),
         teamId = teamId.toInt(),
         playerId = playerId.toInt()
+    )
+}
+
+fun PlayerEntity.toPlayer(teamName:String):Player{
+    return Player(
+        team = teamName,
+        name = playerName,
+        type = playerType,
+        salary = playerSalary.toString()
     )
 }

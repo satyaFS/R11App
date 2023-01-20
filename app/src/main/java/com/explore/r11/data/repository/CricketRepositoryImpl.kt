@@ -2,9 +2,9 @@ package com.explore.r11.data.repository
 
 import com.explore.r11.data.local.CricketLocalDataSource
 import com.explore.r11.data.local.entities.MatchEntity
-import com.explore.r11.data.local.entities.MatchTeamPlayers
 import com.explore.r11.data.local.entities.TeamEntity
 import com.explore.r11.data.mapper.toMatchTeamPlayers
+import com.explore.r11.data.mapper.toPlayer
 import com.explore.r11.data.mapper.toPlayerEntity
 import com.explore.r11.data.remote.cricket.CricketRemoteDataSource
 import com.explore.r11.domain.model.Match
@@ -33,6 +33,7 @@ class CricketRepositoryImpl @Inject constructor(
                     LocalDateTime.now(),it.matchId )
                 matches.add(match)
             }
+            println(matches)
             matches
         }
         catch (e: IOException){
@@ -43,7 +44,17 @@ class CricketRepositoryImpl @Inject constructor(
 
     override suspend fun getPlayers(matchId: Int): List<Player> {
         return try{
-            cricketRemoteDataSource.getPlayers(matchId)
+            val playersMap = cricketLocalDataSource.getPlayers(matchId)
+            if(playersMap.isEmpty()){
+                cricketRemoteDataSource.getPlayers(matchId)
+            }
+            else{
+                var players = mutableListOf<Player>()
+                playersMap.keys.forEach{teamName->
+                    playersMap[teamName]?.map { it.toPlayer(teamName) }?.let { players.addAll(it) }
+                }
+               players
+            }
         }
         catch (e: IOException){
             e.printStackTrace()
