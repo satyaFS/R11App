@@ -63,21 +63,23 @@ class CricketRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveMatchInfo(
+        matchId: Int,
         teamOnePlayers: List<NewPlayer>,
         teamTwoPlayers: List<NewPlayer>,
-        teamOneName: String,
-        teamTwoName: String,
-    ) {
+        teamOne: TeamEntity,
+        teamTwo: TeamEntity,
+    ):List<Int> {
         val teamOnePlayerKeys = cricketLocalDataSource.insertPlayers(players = teamOnePlayers.map { it.toPlayerEntity() })
         val teamTwoPlayerKeys = cricketLocalDataSource.insertPlayers(teamTwoPlayers.map { it.toPlayerEntity() })
-        val teamOneKey = cricketLocalDataSource.insertTeam(TeamEntity(0,teamOneName))
-        val teamTwoKey = cricketLocalDataSource.insertTeam(TeamEntity(0,teamTwoName))
-        val matchKey = cricketLocalDataSource.insertMatch(MatchEntity(0,teamOneKey.toInt(),teamTwoKey.toInt(),"My League"))
+        val teamOneKey = cricketLocalDataSource.insertTeam(teamOne)
+        val teamTwoKey = cricketLocalDataSource.insertTeam(teamTwo)
+        val matchKey = cricketLocalDataSource.insertMatch(MatchEntity(matchId,teamOneKey.toInt(),teamTwoKey.toInt(),"My League"))
         //magic
         val mtpOne = teamOnePlayerKeys.map { toMatchTeamPlayers(matchKey,teamOneKey,it) }
         cricketLocalDataSource.insertMatchTeamPlayers(mtpOne)
         val mtpTwo = teamTwoPlayerKeys.map { toMatchTeamPlayers(matchKey,teamTwoKey,it) }
         cricketLocalDataSource.insertMatchTeamPlayers(mtpTwo)
+        return listOf(matchKey.toInt(),teamOneKey.toInt(),teamTwoKey.toInt())
     }
 
 }

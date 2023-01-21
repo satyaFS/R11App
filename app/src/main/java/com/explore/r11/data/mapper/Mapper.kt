@@ -40,7 +40,7 @@ fun NewPlayer.toPlayerEntity():PlayerEntity{
         playerName = name,
         playerType = type,
         playerSalary = salary,
-        playerId = 0
+        playerId = id
     )
 }
 
@@ -54,9 +54,39 @@ fun toMatchTeamPlayers(matchId:Long,teamId:Long, playerId:Long):MatchTeamPlayers
 
 fun PlayerEntity.toPlayer(teamName:String):Player{
     return Player(
+        id = playerId,
         team = teamName,
         name = playerName,
         type = playerType,
         salary = playerSalary.toString()
     )
 }
+
+fun Player.toNewPlayer():NewPlayer{
+    return NewPlayer(
+        id = id,
+        name = name,
+        type = type,
+        salary = salary.toDouble(),
+        team = team
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

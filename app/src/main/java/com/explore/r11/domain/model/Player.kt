@@ -1,6 +1,7 @@
 package com.explore.r11.domain.model
 
 data class Player(
+    val id:Int = 0,
     val name:String,
     val team:String,
     val type:String,

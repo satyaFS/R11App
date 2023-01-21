@@ -8,9 +8,10 @@ data class NewTeamState(
     val teamTwoPlayers:List<NewPlayer> = emptyList(),
     val teamOneCount:Int = 0,
     val teamTwoCount:Int = 0,
-    val playerName:String = "",
-    val playerSalary:String = "",
+    val teamOneId:Int = 0,
     val teamOneName:String = "Team One",
+    val teamTwoId:Int = 0,
     val teamTwoName:String = "Team Two",
+    val matchId:Int = 0,
     val isLoading:Boolean = false
 )
