@@ -1,5 +1,7 @@
 package com.explore.r11.domain.repository
 
+import com.explore.r11.data.local.entities.PlayerEntity
+import com.explore.r11.data.local.entities.SelectedPlayersEntity
 import com.explore.r11.data.local.entities.TeamEntity
 import com.explore.r11.domain.model.Match
 import com.explore.r11.domain.model.NewPlayer
@@ -15,5 +17,7 @@ interface CricketRepository  {
         teamOne: TeamEntity,
         teamTwo: TeamEntity
     ): List<Int>
-
+    suspend fun saveSelectedPlayers(selectedPlayers:List<Player>)
+    suspend fun getSelectedPlayers():List<Player>
+    suspend fun clearSelectedPlayers()
 }

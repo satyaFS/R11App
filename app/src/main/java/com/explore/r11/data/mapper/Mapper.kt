@@ -3,6 +3,7 @@ package com.explore.r11.data.mapper
 import androidx.core.text.isDigitsOnly
 import com.explore.r11.data.local.entities.MatchTeamPlayersEntity
 import com.explore.r11.data.local.entities.PlayerEntity
+import com.explore.r11.data.local.entities.SelectedPlayersEntity
 import com.explore.r11.data.remote.cricket.dto.MatchDto
 import com.explore.r11.data.remote.cricket.dto.PlayerDto
 import com.explore.r11.domain.model.Match
@@ -28,10 +29,10 @@ fun MatchDto.toMatch():Match{
 }
 fun PlayerDto.toPlayer():Player{
     return Player(
-        name = name?:"",
-        team = team?:"",
-        type = type?:"",
-        salary = salary?:"",
+        playerName = name?:"",
+        teamName = team?:"",
+        playerType = type?:"",
+        playerSalary = salary?:"",
         points = if(points?.isDigitsOnly() == true) points.toInt() else 0
     )
 }
@@ -54,24 +55,37 @@ fun toMatchTeamPlayers(matchId:Long,teamId:Long, playerId:Long):MatchTeamPlayers
 
 fun PlayerEntity.toPlayer(teamName:String):Player{
     return Player(
-        id = playerId,
-        team = teamName,
-        name = playerName,
-        type = playerType,
-        salary = playerSalary.toString()
+        playerId = playerId,
+        teamName = teamName,
+        playerName = playerName,
+        playerType = playerType,
+        playerSalary = playerSalary.toString()
     )
 }
 
 fun Player.toNewPlayer():NewPlayer{
     return NewPlayer(
-        id = id,
-        name = name,
-        type = type,
-        salary = salary.toDouble(),
-        team = team
+        id = playerId,
+        name = playerName,
+        type = playerType,
+        salary = playerSalary.toDouble(),
+        team = teamName
     )
 }
 
+fun Player.toSelectedPlayerEntity():SelectedPlayersEntity{
+    return SelectedPlayersEntity(
+        playerId = playerId,
+        playerSalary = playerSalary,
+        teamName = teamName,
+        playerType = playerType,
+        playerName = playerName,
+        isPlayerLocked = isPlayerLocked,
+        isCvcLocked = isCvcLocked,
+        isCaptain = isCaptain,
+        isViceCaptain = isViceCaptain
+    )
+}
 
 
 

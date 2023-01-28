@@ -17,7 +17,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.explore.r11.domain.model.Match
 import com.explore.r11.domain.model.Player
 
 @Composable
@@ -52,7 +51,7 @@ fun PlayerItem(
                 Icon(
                     imageVector = Icons.Rounded.Person,
 //                    tint =
-//                    if(match.teamOne == player.team){
+//                    if(match.teamOne == player.teamName){
 //                        Color(0xFFb6defc)
 //                    }
 //                    else{
@@ -66,7 +65,7 @@ fun PlayerItem(
                 )
 
                 Text(
-                    text = player.team,
+                    text = player.teamName,
                     style = MaterialTheme.typography.caption,
                     modifier = Modifier.padding(bottom =2.dp)
                 )
@@ -90,7 +89,7 @@ fun PlayerItem(
                 ) {
 
                     Text(
-                        text = player.name,
+                        text = player.playerName,
                         style = MaterialTheme.typography.body1,
                         modifier = Modifier
                             .weight(1f)
@@ -110,7 +109,7 @@ fun PlayerItem(
 
 
                     Text(
-                        text = player.type,
+                        text = player.playerType,
                         style = MaterialTheme.typography.caption,
                         fontSize = 10.sp,
                         modifier= Modifier.padding(start=15.dp, bottom = 2.5.dp, end = 4.dp),
@@ -210,7 +209,7 @@ fun RemovedPlayerItem(
                 Icon(
                     imageVector = Icons.Rounded.Person,
 //                    tint =
-//                    if(match.teamOne == player.team){
+//                    if(match.teamOne == player.teamName){
 //                        Color(0xFFb6defc)
 //                    }
 //                    else{
@@ -224,7 +223,7 @@ fun RemovedPlayerItem(
                 )
 
                 Text(
-                    text = player.team,
+                    text = player.teamName,
                     style = MaterialTheme.typography.caption,
                     modifier = Modifier.padding(bottom =2.dp)
                 )
@@ -248,7 +247,7 @@ fun RemovedPlayerItem(
                 ) {
 
                     Text(
-                        text = player.name,
+                        text = player.playerName,
                         style = MaterialTheme.typography.body1,
                         modifier = Modifier
                             .weight(1f)
@@ -268,7 +267,7 @@ fun RemovedPlayerItem(
 
 
                     Text(
-                        text = player.type,
+                        text = player.playerType,
                         style = MaterialTheme.typography.caption,
                         fontSize = 10.sp,
                         modifier= Modifier.padding(start=15.dp, bottom = 2.5.dp, end = 4.dp),

@@ -45,7 +45,7 @@ fun MatchInfoScreen(
                 Tab(
                     selected = true,
                     onClick = { selectedIndex = 0 },
-                    text = { Text(text = "All Players") }
+                    text = { Text(text = "All Players+ ${state.isLoading}") }
                 )
                 Tab(selected = true, onClick = { selectedIndex = 1 }, text = {Text(text = "Removed Players")})
             }
@@ -91,7 +91,7 @@ fun MatchInfoScreen(
                         }
                     }
                     Row(Modifier.fillMaxWidth().wrapContentHeight()  ) {
-                        SelectNoOfTeams(navController = navController )
+                        SelectNoOfTeams(navController = navController , savePlayers = viewModel::saveSelectedPlayers, isLoading =state.isLoading)
                     }
 
                 }
@@ -121,7 +121,7 @@ fun MatchInfoScreen(
                         }
                     }
                     Row(Modifier.fillMaxWidth().wrapContentHeight()  ) {
-                        SelectNoOfTeams(navController = navController )
+                        SelectNoOfTeams(navController = navController , savePlayers = viewModel::saveSelectedPlayers, isLoading = state.isLoading)
                     }
                 }
             }
@@ -133,7 +133,8 @@ fun MatchInfoScreen(
 @Composable
 fun SelectNoOfTeams(
     navController: NavController,
-//    generateTeams:(List<Player>, noOfTeams:Int)->Unit,
+    savePlayers:(()->Unit)->Unit,
+    isLoading:Boolean
 //    validateSelectedPlayers:()->Int,
 
     ){
@@ -156,8 +157,7 @@ fun SelectNoOfTeams(
                 onClick = {
 //                    openDialog.value = validateSelectedPlayers() todo
                     if( openDialog.value== 1){
-//                        generateTeams(players.toList(), numberValue)
-                        navController.navigate(Screen.GeneratedTeams.route)
+                        savePlayers { navController.navigate(Screen.GeneratedTeams.route + "/$numberValue") }
                     }
                 },
                 modifier = Modifier
@@ -251,7 +251,7 @@ fun SelectNoOfTeams(
                 },
                 text = {
                     Text(
-                        "Select minimum of 1 WK, 3 BAT, 1 ALL, 3 BOWL and 4 players from each team." +
+                        "Select minimum of 1 WK, 3 BAT, 1 ALL, 3 BOWL and 4 players from each teamName." +
                                 "Do not lock more than 11 players."
                     )
                 },

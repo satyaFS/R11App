@@ -58,6 +58,7 @@ class FirebaseCricketApiImpl @Inject constructor(
                 println("Error in firebase")
             }
             .await()
+        println("size ${res.data?.size}")
         //await only waits till snapshot is fetched but not till the code inside "addOnSuccessListener" is completed
         res?.let { players->
             val playerData = players.data
@@ -75,6 +76,7 @@ class FirebaseCricketApiImpl @Inject constructor(
                 )
             }
         }
+        println(listOfPlayers)
         return  listOfPlayers
     }
 }

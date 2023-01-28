@@ -18,7 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 
 @Composable
-fun GeneratedTeamsScreen(navController: NavController ,viewModel: GenerateTeamsViewModel  ){
+fun GeneratedTeamsScreen(navController: NavController ,viewModel: GenerateTeamsViewModel = hiltViewModel() ){
     val state = viewModel.state
     val bool = remember{ mutableStateOf(true) }
     val openDialog = remember{ mutableStateOf(false) }

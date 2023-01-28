@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.explore.r11.data.local.entities.*
 
 @Database(
-    entities = [MatchEntity::class, TeamEntity::class, PlayerEntity::class, MatchTeamPlayersEntity::class],
+    entities = [MatchEntity::class, TeamEntity::class, PlayerEntity::class, MatchTeamPlayersEntity::class,SelectedPlayersEntity::class],
     version = 1
 )
 abstract class CricketDatabase:RoomDatabase() {

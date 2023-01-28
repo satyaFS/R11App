@@ -1,11 +1,11 @@
 package com.explore.r11.domain.model
 
 data class Player(
-    val id:Int = 0,
-    val name:String,
-    val team:String,
-    val type:String,
-    val salary:String,
+    val playerId:Int = 0,
+    val playerName:String,
+    val teamName:String,
+    val playerType:String,
+    val playerSalary:String,
     val points:Int = 0,
     val lastMatch:Boolean = false,
     var isPlayerLocked:Boolean = false,

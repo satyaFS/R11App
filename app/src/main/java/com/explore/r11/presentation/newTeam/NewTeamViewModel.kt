@@ -9,6 +9,7 @@ import com.explore.r11.data.local.entities.TeamEntity
 import com.explore.r11.data.mapper.toNewPlayer
 import com.explore.r11.domain.model.NewPlayer
 import com.explore.r11.domain.model.Player
+import com.explore.r11.domain.model.PlayerType
 import com.explore.r11.domain.repository.CricketRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -32,8 +33,8 @@ class NewTeamViewModel @Inject constructor(
                 TeamEntity(state.teamTwoId, state.teamTwoName)
             )
             val players = repository.getPlayers(matchAndTeamKeys[0])
-            val teamOnePlayers = players.filter { it.team == state.teamOneName }.map { it.toNewPlayer() }
-            val teamTwoPlayers = players.filter { it.team == state.teamTwoName }.map { it.toNewPlayer() }
+            val teamOnePlayers = players.filter { it.teamName == state.teamOneName }.map { it.toNewPlayer() }
+            val teamTwoPlayers = players.filter { it.teamName == state.teamTwoName }.map { it.toNewPlayer() }
             state = state.copy(
                 matchId = matchAndTeamKeys[0],
                 teamOneId = matchAndTeamKeys[1],
@@ -63,13 +64,13 @@ class NewTeamViewModel @Inject constructor(
     fun addPlayer(oneOrTwo:Int){
         state = if(oneOrTwo == 1){
             val count = state.teamOneCount +1
-            val player = NewPlayer(0,"Player $count", state.teamOneName, "Bat", 8.0)
+            val player = NewPlayer(0,"Player $count", state.teamOneName, PlayerType.Batter.type, 8.0)
             val teamOne = state.teamOnePlayers.toMutableList()
             teamOne.add(player)
             state.copy(teamOnePlayers = teamOne, teamOneCount = count)
         } else{
             val count = state.teamTwoCount +1
-            val player = NewPlayer(0,"Player $count", state.teamTwoName, "Bat", 8.0)
+            val player = NewPlayer(0,"Player $count", state.teamTwoName, PlayerType.Batter.type, 8.0)
             val teamTwo = state.teamTwoPlayers.toMutableList()
             teamTwo.add(player)
             state.copy(teamTwoPlayers = teamTwo, teamTwoCount = count)

@@ -6,6 +6,7 @@ import com.explore.r11.data.local.entities.TeamEntity
 import com.explore.r11.data.mapper.toMatchTeamPlayers
 import com.explore.r11.data.mapper.toPlayer
 import com.explore.r11.data.mapper.toPlayerEntity
+import com.explore.r11.data.mapper.toSelectedPlayerEntity
 import com.explore.r11.data.remote.cricket.CricketRemoteDataSource
 import com.explore.r11.domain.model.Match
 import com.explore.r11.domain.model.NewPlayer
@@ -38,7 +39,7 @@ class CricketRepositoryImpl @Inject constructor(
         }
         catch (e: IOException){
             e.printStackTrace()
-            emptyList<Match>()
+            emptyList()
         }
     }
 
@@ -49,7 +50,7 @@ class CricketRepositoryImpl @Inject constructor(
                 cricketRemoteDataSource.getPlayers(matchId)
             }
             else{
-                var players = mutableListOf<Player>()
+                val players = mutableListOf<Player>()
                 playersMap.keys.forEach{teamName->
                     playersMap[teamName]?.map { it.toPlayer(teamName) }?.let { players.addAll(it) }
                 }
@@ -58,10 +59,9 @@ class CricketRepositoryImpl @Inject constructor(
         }
         catch (e: IOException){
             e.printStackTrace()
-            emptyList<Player>()
+            emptyList()
         }
     }
-
     override suspend fun saveMatchInfo(
         matchId: Int,
         teamOnePlayers: List<NewPlayer>,
@@ -81,5 +81,23 @@ class CricketRepositoryImpl @Inject constructor(
         cricketLocalDataSource.insertMatchTeamPlayers(mtpTwo)
         return listOf(matchKey.toInt(),teamOneKey.toInt(),teamTwoKey.toInt())
     }
-
+    override suspend fun saveSelectedPlayers(selectedPlayers: List<Player>) {
+        clearSelectedPlayers()
+        println(selectedPlayers)
+        val selectedPlayersEntities = selectedPlayers.map { it.toSelectedPlayerEntity() }
+        cricketLocalDataSource.saveSelectedPlayers(selectedPlayersEntities)
+    }
+    override suspend fun getSelectedPlayers(): List<Player> {
+        return cricketLocalDataSource.getSelectedPlayers()
+    }
+    override suspend fun clearSelectedPlayers() {
+        cricketLocalDataSource.clearSelectedPlayers()
+    }
 }
+
+
+
+
+
+
+

@@ -24,10 +24,7 @@ fun NavDestination(navController: NavHostController){
             MatchInfoScreen(navController = navController)
         }
         composable(Screen.GeneratedTeams.route+"/{noOfTeams}"){
-//            val selectedPlayers = viewModel()
-            val viewModel: MatchInfoViewModel = viewModel(navController.previousBackStackEntry!!)
-            val players = viewModel.state.selectedPlayers
-//            GeneratedTeamsScreen(navController, GenerateTeamsViewModel(selectedPlayers = players))
+           GeneratedTeamsScreen(navController)
         }
         composable(Screen.AddMatch.route){
             NewMatchScreen(navController = navController)

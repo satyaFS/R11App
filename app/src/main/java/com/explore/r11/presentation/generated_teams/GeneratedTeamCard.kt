@@ -1,25 +1,20 @@
 package com.explore.r11.presentation.generated_teams
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.explore.r11.domain.model.Match
 import com.explore.r11.domain.model.Player
 
 @Composable
@@ -44,7 +39,7 @@ fun GeneratedTeamCard(generatedTeams:List<Player>,teamOne:String,index:Int){
                 modifier = Modifier.padding(start = 10.dp)
             )
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(items = generatedTeams.filter { it.type=="WK" }.chunked(3)){
+                items(items = generatedTeams.filter { it.playerType=="WK" }.chunked(3)){
                         player->
                     Row(modifier = Modifier
                         .fillMaxWidth()
@@ -54,7 +49,7 @@ fun GeneratedTeamCard(generatedTeams:List<Player>,teamOne:String,index:Int){
                                 Icon(
                                     imageVector = Icons.Filled.Person,
                                     tint =
-                                    if( teamOne == team.team){
+                                    if( teamOne == team.teamName){
                                         iconTwo
                                     }
                                     else{
@@ -68,9 +63,9 @@ fun GeneratedTeamCard(generatedTeams:List<Player>,teamOne:String,index:Int){
                                 )
                                 Text(
                                     text = when {
-                                        team.isCaptain -> {team.name + " ( C )"}
-                                        team.isViceCaptain -> {team.name +" ( Vc )"}
-                                        else -> team.name
+                                        team.isCaptain -> {team.playerName + " ( C )"}
+                                        team.isViceCaptain -> {team.playerName +" ( Vc )"}
+                                        else -> team.playerName
                                     },
                                     color =
                                     if(team.isCaptain || team.isViceCaptain){
@@ -87,7 +82,7 @@ fun GeneratedTeamCard(generatedTeams:List<Player>,teamOne:String,index:Int){
 
             }
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(items = generatedTeams.filter { it.type=="BAT" }.chunked(3)){
+                items(items = generatedTeams.filter { it.playerType=="BAT" }.chunked(3)){
                         player->
                     Row(modifier = Modifier
                         .fillMaxWidth()
@@ -97,7 +92,7 @@ fun GeneratedTeamCard(generatedTeams:List<Player>,teamOne:String,index:Int){
                                 Icon(
                                     imageVector = Icons.Rounded.Person,
                                     tint =
-                                    if( teamOne == team.team){
+                                    if( teamOne == team.teamName){
                                         iconTwo
 
                                     }
@@ -112,9 +107,9 @@ fun GeneratedTeamCard(generatedTeams:List<Player>,teamOne:String,index:Int){
                                 )
                                 Text(
                                     text = when {
-                                        team.isCaptain -> {team.name + " ( C )"}
-                                        team.isViceCaptain -> {team.name +" ( Vc )"}
-                                        else -> team.name
+                                        team.isCaptain -> {team.playerName + " ( C )"}
+                                        team.isViceCaptain -> {team.playerName +" ( Vc )"}
+                                        else -> team.playerName
                                     },
                                     color =
                                     if(team.isCaptain || team.isViceCaptain){
@@ -132,7 +127,7 @@ fun GeneratedTeamCard(generatedTeams:List<Player>,teamOne:String,index:Int){
                 }
             }
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(items = generatedTeams.filter { it.type=="ALL" }.chunked(3)){
+                items(items = generatedTeams.filter { it.playerType=="ALL" }.chunked(3)){
                         player->
                     Row(modifier = Modifier
                         .fillMaxWidth()
@@ -142,7 +137,7 @@ fun GeneratedTeamCard(generatedTeams:List<Player>,teamOne:String,index:Int){
                                 Icon(
                                     imageVector = Icons.Rounded.Person,
                                     tint =
-                                    if( teamOne == team.team){
+                                    if( teamOne == team.teamName){
                                         iconTwo
                                     }
                                     else{
@@ -156,9 +151,9 @@ fun GeneratedTeamCard(generatedTeams:List<Player>,teamOne:String,index:Int){
                                 )
                                 Text(
                                     text = when {
-                                        team.isCaptain -> {team.name + " ( C )"}
-                                        team.isViceCaptain -> {team.name +" ( Vc )"}
-                                        else -> team.name
+                                        team.isCaptain -> {team.playerName + " ( C )"}
+                                        team.isViceCaptain -> {team.playerName +" ( Vc )"}
+                                        else -> team.playerName
                                     },
                                     color =
                                     if(team.isCaptain || team.isViceCaptain){
@@ -174,7 +169,7 @@ fun GeneratedTeamCard(generatedTeams:List<Player>,teamOne:String,index:Int){
                 }
             }
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(items = generatedTeams.filter { it.type=="BOWL" }.chunked(3)){
+                items(items = generatedTeams.filter { it.playerType=="BOWL" }.chunked(3)){
                         player->
                     Row(modifier = Modifier
                         .fillMaxWidth()
@@ -184,7 +179,7 @@ fun GeneratedTeamCard(generatedTeams:List<Player>,teamOne:String,index:Int){
                                 Icon(
                                     imageVector = Icons.Rounded.Person,
                                     tint =
-                                    if( teamOne == team.team){
+                                    if( teamOne == team.teamName){
                                         iconTwo
                                     }
                                     else{
@@ -198,9 +193,9 @@ fun GeneratedTeamCard(generatedTeams:List<Player>,teamOne:String,index:Int){
                                 )
                                 Text(
                                     text = when {
-                                        team.isCaptain -> {team.name + " ( C )"}
-                                        team.isViceCaptain -> {team.name +" ( Vc )"}
-                                        else -> team.name
+                                        team.isCaptain -> {team.playerName + " ( C )"}
+                                        team.isViceCaptain -> {team.playerName +" ( Vc )"}
+                                        else -> team.playerName
                                     },
                                     color =
                                     if(team.isCaptain || team.isViceCaptain){

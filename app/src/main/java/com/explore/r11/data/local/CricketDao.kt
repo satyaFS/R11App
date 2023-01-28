@@ -2,6 +2,7 @@ package com.explore.r11.data.local
 
 import androidx.room.*
 import com.explore.r11.data.local.entities.*
+import com.explore.r11.domain.model.Player
 
 @Dao
 interface CricketDao {
@@ -13,7 +14,7 @@ interface CricketDao {
     @Query("SELECT * FROM MatchEntity")
     suspend fun getMatches():List<MatchEntity>
 
-    //team
+    //teamName
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTeam(
         teamEntity: TeamEntity
@@ -38,8 +39,14 @@ interface CricketDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMatchTeamPlayers(matchTeamPlayers: List<MatchTeamPlayersEntity>):List<Long>
 
+    //SelectedPlayers
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSelectedPlayers(selectedPlayerEntities:List<SelectedPlayersEntity>)
 
-
+    @Query("SELECT 0 as points,'false' as lastMatch, * FROM SelectedPlayersEntity ")
+    suspend fun getSelectedPlayers():List<Player>
+    @Query("DELETE FROM SelectedPlayersEntity")
+    suspend fun clearSelectedPlayers()
 }
 
 

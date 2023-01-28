@@ -27,7 +27,6 @@ class CricketRemoteDataSource @Inject constructor(
         withContext(ioDispatcher){
               players = cricketApi.getPlayers(matchId)
         }
-        println("crd ${players.size}")
         return players.map { it.toPlayer() };
     }
 }
