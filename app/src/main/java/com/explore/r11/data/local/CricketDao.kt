@@ -47,6 +47,15 @@ interface CricketDao {
     suspend fun getSelectedPlayers():List<Player>
     @Query("DELETE FROM SelectedPlayersEntity")
     suspend fun clearSelectedPlayers()
+
+    //Generated Teams
+    @MapInfo(keyColumn = "teamNo")
+    @Query("""SELECT  0 as points,'false' as lastMatch,'false' as isPlayerLocked, 'false' as isCvcLocked, 
+            t.teamName, gt.teamNo, gt.isCaptain,gt.isViceCaptain,p.* FROM GeneratedTeamsEntity gt
+            JOIN PlayerEntity p on gt.playerId = p.playerId and 
+            matchId=:matchId and setNo = :setNo
+            JOIN TeamEntity t on t.teamId = gt.teamId """)
+    suspend fun getGeneratedTeams(matchId:Int, setNo:Int):Map<Int,List<Player>>
 }
 
 

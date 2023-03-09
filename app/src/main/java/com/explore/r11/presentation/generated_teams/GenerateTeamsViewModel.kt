@@ -29,8 +29,6 @@ class GenerateTeamsViewModel @Inject constructor (
             state = state.copy(isLoading = true)
             val noOfTeams = savedStateHandle.get<String>("noOfTeams")
             val players = repository.getSelectedPlayers()
-            println("32")
-            println(players)
             if(noOfTeams?.isDigitsOnly() == true){
                 val teams = random11(players, noOfTeams.toInt())
                 state = state.copy(teams = teams)
